@@ -1,0 +1,126 @@
+.sidebar {
+  display: table;
+  font-family: 'Harman Simple';
+  font-size: 8vw;
+  line-height: 3vw;
+
+  margin-top: 75px;
+  padding: 22px;
+
+  color: var(--navbar-text-color);
+  background-color: #f9fafb;
+  border-left: 1px solid #eaedf0;
+  transition: transform 1s;
+
+  position: relative;
+  transform: translateY(-100%);
+  height: auto;
+  width: 100%;
+  pointer-events: all;
+}
+
+.sidebar button {
+  background: none;
+  color: #ff6a30;
+  border: none;
+  outline: none;
+  padding: 0 !important;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.sidebar button {
+  text-align: center;
+
+  width: 100%;
+  max-width: 400px;
+  height: 60px;
+  margin-bottom: 5px;
+
+  border-bottom: 1px solid #eaedf0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar button:active {
+  transform: translateY(1px);
+  filter: saturate(150%);
+}
+
+.is-visible {
+  transform: translateY(0%);
+}
+
+.sidebar__wrapper {
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidebar__list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-user__info {
+  background: #ffffff;
+  border-bottom: 1px solid rgb(225, 228, 231);
+
+  width: 100%;
+  height: 75px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.current-user__img {
+  display: none;
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  background-size: 40px;
+}
+.current-user__name {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 500px) {
+  .sidebar {
+    font-size: 2vw;
+    transform: translateY(0%);
+    transform: translateX(100%);
+    width: 50%;
+    max-width: 300px;
+    height: 100%;
+  }
+  .is-visible {
+    transform: translateX(0%);
+  }
+  .sidebar button {
+    align-items: flex-start;
+  }
+  .current-user__name {
+    justify-content: flex-start;
+  }
+  .current-user-img {
+    display: block;
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

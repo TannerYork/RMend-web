@@ -1,0 +1,29 @@
+.sidebar-list-link {
+  text-align: center;
+
+  width: 100%;
+  max-width: 400px;
+  height: 60px;
+  margin-bottom: 5px;
+
+  border-bottom: 1px solid #eaedf0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-list-link a:hover {
+  text-decoration: none;
+}
+
+@media only screen and (min-width: 500px) {
+  .sidebar-list-link {
+    align-items: flex-start;
+  }
+
+  .sidebar-list-link.problem {
+    font-size: 1.8vw;
+  }
+}

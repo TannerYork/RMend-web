@@ -1,0 +1,131 @@
+.user-list__item-container {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: unset;
+  min-height: 70px;
+  max-height: 110px;
+
+  pointer-events: none;
+}
+.user-list__item-container.is-visible > .options {
+  display: flex;
+}
+.users-list__item {
+  background-color: #ffff;
+  color: var(--style-color-dar_blue);
+  text-align: center;
+  font-size: 6vw;
+
+  width: 100%;
+  max-width: 500px;
+  height: 50px;
+  margin-bottom: 5px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  pointer-events: all;
+}
+.users-list__item h4 {
+  height: 50%;
+}
+.users-list__item:hover {
+  cursor: pointer;
+}
+.top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-bottom: 0px;
+}
+.bottom {
+  border-top: 1px solid #eaedf0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 0px;
+  height: 20px;
+}
+.options {
+  background-color: var(--main-background-color);
+  font-size: 20px;
+
+  width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+
+  display: none;
+  justify-content: center;
+  transition: flex 1s ease-out;
+}
+.options.visible {
+  display: flex;
+  cursor: default;
+}
+.options-input {
+  width: 100%;
+  display: flex;
+}
+.options-btn {
+  background-color: #d6d9dc;
+  color: var(--style-color-dar_blue);
+  flex-grow: 1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.options-btn:hover {
+  opacity: 50%;
+}
+.options-btn.start {
+  border-right: 1px solid #ffffff;
+}
+.options-btn.end {
+  border-left: 1px solid #ffffff;
+}
+.options-btn:hover {
+  color: var(--main-link-visited-color);
+}
+
+.user-info-page {
+  background-color: #d6d9dc;
+  color: #3a3a3a;
+
+  width: 95%;
+  max-width: 400px;
+  height: 375px;
+  border-radius: 10px;
+  padding: 5px;
+
+  display: none;
+  flex-direction: column;
+  position: absolute;
+}
+
+.user-info-page.is-visible {
+  display: flex;
+}
+.user-info-page .form-row {
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 500px) {
+  .users-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .user-list__item-container {
+    margin-right: 5px;
+  }
+  .users-list__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 40px;
+  }
+}
