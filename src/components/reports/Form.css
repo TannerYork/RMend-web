@@ -84,6 +84,20 @@
   transform: translateY(1px);
   filter: saturate(150%);
 }
+
+.form-row select {
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #d6d9dc;
+  background-color: #ffffff;
+  -webkit-appearance: none;
+}
+
+.form-row select:active {
+  border: none;
+}
+
 .form-row-photo {
   margin-bottom: 20px;
 }

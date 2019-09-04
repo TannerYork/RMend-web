@@ -106,18 +106,25 @@ export const createReport = async formValues => {
     isBeingReviewed: false
   };
 
-  const messageRef = await firestore
+  try {
+    const messageRef = await firestore
     .collection('reports')
     .doc()
     .set(data);
-
-  // Upload the image to Cloud Storage
-  const filePath = 'reports/' + messageRef.id;
-  const fileSnapshot = await storage.ref(filePath).put(formValues.image);
-
-  // Generate a public URL for the file
-  const url = await fileSnapshot.ref.getDownloadURL();
-
-  // Update the chat message placeholder with the real image
-  messageRef.update({ id: messageRef.id, imageUrl: url, imageUri: fileSnapshot.metadata.fullPath });
+    var index = 0
+    for (var i = 0; i < formValues.photos.length(); i++) {
+      // Upload images to Cloud Storage
+      const filePath = `reports/${messageRef.id}/${messageRef.id}-initial-${index}`;
+      const fileSnapshot = await storage.ref(filePath).put(formValues.photos[i]);
+      
+      // Generate a public URL for the file
+      const url = await fileSnapshot.ref.getDownloadURL();
+      console.log(url)
+      // Update the chat message placeholder with the real image
+      messageRef.update({ photos: [{id: messageRef.id, imageUrl: url, imageUri: fileSnapshot.metadata.fullPath}] });
+      index += 1
+    }
+  } catch(error) {
+    alert(error)
+  }
 };

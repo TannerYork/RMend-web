@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "blueimp-canvas-to-blob": "^3.16.0",
+    "blueimp-load-image": "^2.24.0",
     "firebase": "^6.3.4",
     "firebaseui": "^4.1.0",
     "react": "^16.8.6",
