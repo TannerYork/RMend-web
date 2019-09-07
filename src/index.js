@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
+import * as serviceWorker from './serviceWorker'
 
 import App from './components/App';
 import reducers from './reducers';
@@ -19,3 +20,5 @@ ReactDOM.render(
   </Provider>,
   document.querySelector('#root')
 );
+
+serviceWorker.register()

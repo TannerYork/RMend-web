@@ -92,7 +92,7 @@ export const updateUserInfo = (userId, verification, magisterialDistrict) => asy
   });
 };
 
-export const createReport = async formValues => {
+export const createReport = formValues => async dispatch => {
   const date = new Date();
   const timestamp = date.toDateString();
   const data = {
@@ -107,23 +107,26 @@ export const createReport = async formValues => {
   };
 
   try {
-    const messageRef = await firestore
-    .collection('reports')
-    .doc()
-    .set(data);
+    const messageRef = await firestore.collection('reports').add(data);
     var index = 0
-    for (var i = 0; i < formValues.photos.length(); i++) {
+    formValues.photos.forEach(async (photo) => {
       // Upload images to Cloud Storage
       const filePath = `reports/${messageRef.id}/${messageRef.id}-initial-${index}`;
-      const fileSnapshot = await storage.ref(filePath).put(formValues.photos[i]);
+      const fileSnapshot = await storage.ref(filePath).put(photo);
       
       // Generate a public URL for the file
       const url = await fileSnapshot.ref.getDownloadURL();
       console.log(url)
       // Update the chat message placeholder with the real image
-      messageRef.update({ photos: [{id: messageRef.id, imageUrl: url, imageUri: fileSnapshot.metadata.fullPath}] });
+      messageRef.update({ 
+        photos: [{
+          id: messageRef.id, 
+          imageUrl: url, 
+          imageUri: fileSnapshot.metadata.fullPath
+        }] 
+      });
       index += 1
-    }
+    })
   } catch(error) {
     alert(error)
   }

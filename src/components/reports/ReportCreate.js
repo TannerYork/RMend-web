@@ -18,6 +18,7 @@ class ReportCreate extends React.Component {
 
   validate = formValues => {
     const errors = {};
+    console.log(formValues)
     if (formValues.photos < 1) errors.photo = 'At least one photo of the issue is required';
     if (formValues.photos > 2) errors.photo = 'A max of two images is allowed';
     if (!formValues.roadName) errors.roadName = "The road's name is required";
@@ -26,30 +27,38 @@ class ReportCreate extends React.Component {
     return errors;
   };
 
-  handlePhotosChange = e => {
-    const imageDisplay = document.querySelector('.form-image-display')
-    const children = imageDisplay.children
-    const canvases = Array.from(children);
-    const files = [];
-    for (var key in e.target.files) {
-      files.push(e.target.files[key])
-     }
+  clearInputs = () => {
+    this.setState({
+      photos: [],
+      roadName: '',
+      details: '',
+      magisterialDistrict: '',
+      nearestStreet: '',
+      priority: false
+    })
+  }
 
-    if (files.length >= 2) {
+  handlePhotosChange = async e => {
+    const imageDisplay = document.querySelector('.form-image-display')
+    const files = Array.from(e.target.files);
+
+    if (files.length <= 2) {
       while (imageDisplay.firstChild) {
-        imageDisplay.removeChild(imageDisplay.firstChild)
+        imageDisplay.removeChild(imageDisplay.firstChild);
       }
 
-      files.forEach((file) => {
-        loadImage( file,(img) => imageDisplay.appendChild(img),
+      files.forEach(async (file) => {
+        await loadImage( file,(img) => {
+          imageDisplay.appendChild(img);
+          if (img.toBlob) {
+            img.toBlob((blob) => {
+              this.setState({photos: [...this.state.photos, blob]})
+            })
+          } else {
+            console.error('Could not find .toBlob')
+          }
+        },
         { orientation: true, maxWidth: 300, maxHeight: 450 });
-      })
-
-      canvases.forEach((canvas) => {
-        if (canvas.toBlog) {
-          const imageBlob = canvas.toBlob()
-          this.photos.append(imageBlob)
-        }
       })
     } else {
       alert('A max of two images is currently allowed')
@@ -66,16 +75,19 @@ class ReportCreate extends React.Component {
 
   handlePriorityChange = e => this.setState({ priority: e.tartget.checked });
 
-  handleSubmit = e => {
+  handleSubmit =  e => {
+    console.log('Creating Report')
     e.preventDefault();
-    console.log("Submitting Report")
-    const { state, createReport } = this;
+    const { state } = this;
     const errors = this.validate(state);
-    if (errors.length === 0) {
-      createReport(this.state)
+    if (!errors.keys) {
+      this.props.createReport(state)
+      this.clearInputs()
       return;
+    } else {
+      console.log(errors)
     }
-    console.log('FInnished sending report')
+    console.log('Finnished')
   };
 
   render() {
@@ -89,7 +101,6 @@ class ReportCreate extends React.Component {
         </header>
         <form className="issue-form js-issue-form" onSubmit={this.handleSubmit}>
           <div className="form-image-display" />
-
           <div className="form-row form-row-photo">
             <label>
               <span>Photos </span>
@@ -102,7 +113,6 @@ class ReportCreate extends React.Component {
               />
             </label>
           </div>
-
           <div className="form-row">
             <label>Road Name</label>
             <input
@@ -113,7 +123,6 @@ class ReportCreate extends React.Component {
               required
             />
           </div>
-
           <div className="form-row">
             <label>Description</label>
             <input
@@ -124,10 +133,10 @@ class ReportCreate extends React.Component {
               required
             />
           </div>
-
           <div className="form-row">
             <label>Magisterial District</label>
-            <select required>
+            <select onChange={this.handleDistrictChange} required>
+              <option value={false}>not selected</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
               <option value={3}>3</option>
@@ -137,7 +146,6 @@ class ReportCreate extends React.Component {
               <option value={7}>7</option>
             </select>
           </div>
-
           <div className="form-row">
             <label>Nearest Street Address</label>
             <input
@@ -146,7 +154,6 @@ class ReportCreate extends React.Component {
               onChange={this.handleStreetChange}
             />
           </div>
-
           <div className="form-row">
             <label>Is this a priority?</label>
             <select>
@@ -154,23 +161,6 @@ class ReportCreate extends React.Component {
               <option value={false}>No</option>
             </select>
           </div>
-
-          {/* <fieldset className="legacy-form-row radio" onChange={this.handlePriorityChange} required>
-            <legend>Is this a high priority?</legend>
-            <input
-              type="radio"
-              value={true}
-              checked={this.state.priority ? true : false}
-            />
-            <label className="radio-label">Yes</label>
-            <input
-              type="radio"
-              value={false}
-              checked={this.state.priority ? true : false}
-            />
-            <label className="radio-label">No</label>
-          </fieldset> */}
-
           <div className="form-row">
             <button className="form-submit js-issue-submit">Submit</button>
           </div>
