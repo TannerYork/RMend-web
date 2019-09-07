@@ -62,7 +62,7 @@ body {
   line-height: 1.6em;
   color: #5d6063;
   background-color: #3a3a3a;
-  background: linear-gradient(to top, rgb(255, 255, 255), #ffffff 100%);
+  background: linear-gradient(to top, rgb(130, 128, 128), #ffffff 100%);
   min-width: 320px;
   min-height: 110%;
   position: relative;
@@ -116,7 +116,7 @@ li {
 .page {
   height: 100%;
   /* Gradient page background */
-  background: linear-gradient(to top, rgb(255, 255, 255), #ffffff 100%);
+  background: linear-gradient(to top, rgb(123, 118, 118), #ffffff 100%);
   background-repeat: no-repeat;
   /* This top margin should match .main-nav height */
   margin-top: 75px;
