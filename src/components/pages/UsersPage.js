@@ -33,7 +33,7 @@ class UsersPage extends React.Component {
     const { match, users } = this.props;
     return (
       <div className="sub-container disable-scrollbars">
-        <Route path={match.path} component={UserList} users={users} />
+        <Route exact path={match.path} component={UserList} users={users} />
         <Route path={`${match.path}/pending`} component={UserPendingList} />
         <Route path={`${match.path}/user/:userId`} component={SelectedUserForm} data={{}} />
         <Route path={`${match.path}/pending-user/:userId`} component={SelectedUserForm} data={{}} />

@@ -72,16 +72,16 @@ export const listenForAuthChange = history => async dispatch => {
   });
 };
 
-export const fetchUsers = users => async dispatch => {
-  dispatch({ type: FETCH_USERS, payload: users });
+export const fetchUsers = users =>  {
+  return{ type: FETCH_USERS, payload: users };
 };
 
-export const fetchPendingUsers = users => async dispatch => {
-  dispatch({ type: FETCH_PENDING_USERS, payload: users });
+export const fetchPendingUsers = users => {
+  return { type: FETCH_PENDING_USERS, payload: users };
 };
 
-export const fetchReports = reports => async dispatch => {
-  dispatch({ type: FETCH_REPORTS, payload: reports });
+export const fetchReports = reports => {
+  return { type: FETCH_REPORTS, payload: reports };
 };
 
 export const updateUserInfo = (userId, verification, magisterialDistrict) => async dispatch => {
@@ -119,11 +119,11 @@ export const createReport = formValues => async dispatch => {
       console.log(url)
       // Update the chat message placeholder with the real image
       messageRef.update({ 
-        photos: [{
+        photos: firestore.FieldValue.arrayUnion({
           id: messageRef.id, 
           imageUrl: url, 
           imageUri: fileSnapshot.metadata.fullPath
-        }] 
+        })
       });
       index += 1
     })

@@ -8,13 +8,13 @@ import ReportItemStaff from './ReportItemStaff';
 import './ReportList.css';
 
 class ReportList extends React.Component {
-  state = { lisenter: null };
+  state = { lisenter: null, reports: null };
 
-  async componentDidMount() {
-    var lisenter = await firestore.collection('reports').onSnapshot(snapShot => {
+  componentDidMount() {
+    var lisenter = firestore.collection('reports').onSnapshot(snapShot => {
       const reports = [];
       snapShot.forEach(report => reports.push(report.data()));
-      this.props.fetchReports(reports);
+      this.setState({ reports })
     });
     this.setState({ lisenter });
   }
@@ -24,13 +24,14 @@ class ReportList extends React.Component {
   }
 
   renderReports() {
-    const { reports, user } = this.props;
-    if (reports > 0 && user.magisterialDistrict === 'admin') {
-      reports.forEach(report => {
+    const { user } = this.props;
+    const reports = this.state.reports;
+    if (reports && user && reports.length > 0 && user.magisterialDistrict === 'admin') {
+      return reports.map(report => { 
         return <ReportItemModerator data={report} />;
       });
-    } else if (reports > 0) {
-      reports.forEach(report => {
+    } else if (reports && user && reports.length > 0) {
+       return reports.map(report => {
         return <ReportItemStaff data={report} />;
       });
     } else {
@@ -54,9 +55,8 @@ class ReportList extends React.Component {
   }
 }
 
-const mapStateToProps = ({ firestore, auth }) => {
+const mapStateToProps = ({ auth }) => {
   return {
-    reports: firestore.reports,
     user: auth.user
   };
 };

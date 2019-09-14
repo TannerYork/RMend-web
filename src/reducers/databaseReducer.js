@@ -1,4 +1,4 @@
-import { FETCH_USERS, FETCH_PENDING_USERS, FETCH_REPORTS } from '../actions/types';
+import { FETCH_USERS, FETCH_PENDING_USERS } from '../actions/types';
 
 const INITIAL_STATE = {
   users: [],
@@ -13,9 +13,6 @@ export default (state = INITIAL_STATE, action) => {
 
     case FETCH_PENDING_USERS:
       return { ...state, pendingUsers: action.payload };
-
-    case FETCH_REPORTS:
-      return { ...state, reports: action.payload };
 
     default:
       return state;
