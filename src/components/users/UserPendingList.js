@@ -6,22 +6,22 @@ import { connect } from 'react-redux';
 import { fetchPendingUsers } from '../../actions';
 
 class UserListPending extends React.Component {
-  state = { lisenter: null };
+  state = { listener: null, pendingUsers: [] };
 
-  async componentDidMount() {
-    var lisenter = await firestore
+  componentDidMount() {
+    var listener = firestore
       .collection('users')
       .where('verified', '==', false)
       .onSnapshot(snapShot => {
-        const users = [];
-        snapShot.forEach(doc => users.push(doc.data()));
-        this.props.fetchPendingUsers(users);
+        const pendingUsers = [];
+        snapShot.forEach(doc => pendingUsers.push(doc.data()));
+        this.setState({ pendingUsers })
       });
-    this.setState({ lisenter });
+    this.setState({ listener });
   }
 
   componentWillUnmount() {
-    this.state.lisenter();
+    this.state.listener();
   }
 
   toggleOptionsVisiblity(id) {
@@ -40,8 +40,8 @@ class UserListPending extends React.Component {
   }
 
   renderUsers() {
-    const { pendingUsers } = this.props;
-    if (pendingUsers > 0) {
+    const { pendingUsers } = this.state;
+    if (pendingUsers.length > 0) {
       pendingUsers.forEach(user => {
         return <UserCard data={user} toggle={this.toggleOptionsVisiblity} />;
       });
@@ -57,7 +57,7 @@ class UserListPending extends React.Component {
 
   render() {
     return (
-      <div className="list-container sub-container disable-scrollbars">
+      <div className="users-list disable-scrollbars">
         <div className="user-list disable-scrollbars">{this.renderUsers()}</div>
       </div>
     );
