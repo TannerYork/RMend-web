@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const serviceAccount = require('./config/rmend-789c8-firebase-adminsdk-hmfrb-1884f2b2ba.json');
+const serviceAccount = require('./config/rmend-789c8-firebase-adminsdk-hmfrb-042a92ca23.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -107,8 +107,8 @@ const removeUser = async (user, magisterialDistrict) => {
     });
 };
 
-exports.sendNotification = functions.firebase.collection('reports')
-    .onWrite((change, context) => {
+exports.sendNotification = functions.firestore.document('reports/{reportid}')
+    .onCreate((change, context) => {
       const userUID = context.params.userUID;
 
       const tokens = getUserDeviceTokens(userUID);
