@@ -1,4 +1,8 @@
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore'
+import 'firebase/auth'
+import 'firebase/storage'
+import  'firebase/functions'
 import { FIREBASE_CONFIG, FIREBASE_DEV_CONFIG } from '../config/keys';
 
 if (!FIREBASE_CONFIG) {
@@ -6,6 +10,7 @@ if (!FIREBASE_CONFIG) {
 }
 
 const fire = firebase.initializeApp(FIREBASE_DEV_CONFIG);
+export default firebase
 export const auth = fire.auth();
 export const firestore = fire.firestore();
 export const storage = fire.storage();

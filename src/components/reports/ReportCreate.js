@@ -18,7 +18,6 @@ class ReportCreate extends React.Component {
 
   validate = formValues => {
     const errors = {};
-    console.log(formValues)
     if (formValues.photos < 1) errors.photo = 'At least one photo of the issue is required';
     if (formValues.photos > 2) errors.photo = 'A max of two images is allowed';
     if (!formValues.roadName) errors.roadName = "The road's name is required";

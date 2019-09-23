@@ -20,7 +20,7 @@ class ReportItemModerator extends React.Component {
           <h3>{data.sender}</h3>
           <h4>{data.roadName}</h4>
         </div>
-        <button className="report-item__button">More</button>
+        <button className="report-item__button" onClick={() => this.props.selectReport(data)}>More</button>
         </div>
       </div>
     );

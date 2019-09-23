@@ -5,10 +5,11 @@ import { fetchReports } from '../../actions';
 import { firestore } from '../../config/firebase';
 import ReportItemModerator from './ReportItemModerator';
 import ReportItemStaff from './ReportItemStaff';
+import ReportPage from '../pages/ReportPage';
 import './ReportList.css';
 
 class ReportList extends React.Component {
-  state = { lisenter: null, reports: null };
+  state = { lisenter: null, reports: null, selectedReport: null };
 
   componentDidMount() {
     var lisenter = firestore.collection('reports').onSnapshot(snapShot => {
@@ -23,12 +24,16 @@ class ReportList extends React.Component {
     this.state.lisenter();
   }
 
+  selectReport = (data) => {
+    this.setState({selectedReport: data})
+  }
+
   renderReports() {
     const { user } = this.props;
     const reports = this.state.reports;
     if (reports && user && reports.length > 0 && user.magisterialDistrict === 'admin') {
       return reports.map(report => { 
-        return <ReportItemModerator data={report} />;
+        return <ReportItemModerator data={report} selectReport={this.selectReport}/>;
       });
     } else if (reports && user && reports.length > 0) {
        return reports.map(report => {
@@ -44,12 +49,18 @@ class ReportList extends React.Component {
     }
   }
 
-  // {this.renderReports()}
+  renderReportsOrReport = () => {
+    if (this.state.selectedReport) {
+      return <ReportPage data={this.state.selectedReport} />
+    } else {
+      return <div className="reports-list disable-scrollbars">{this.renderReports()}</div>
+    }
+  }
 
   render() {
     return (
       <div className="sub-container disable-scrollbars">
-        <div className="reports-list disable-scrollbars">{this.renderReports()}</div>
+        {this.renderReportsOrReport()}
       </div>
     );
   }

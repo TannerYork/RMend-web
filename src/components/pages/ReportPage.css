@@ -1,0 +1,16 @@
+.report-photos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.report-header {
+    margin-top: 20px;
+}
+
+.report-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

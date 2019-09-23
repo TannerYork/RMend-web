@@ -1,4 +1,4 @@
-import { auth, firestore, functions, storage } from '../config/firebase';
+import firebase, { auth, firestore, functions, storage} from '../config/firebase';
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -108,25 +108,23 @@ export const createReport = formValues => async dispatch => {
 
   try {
     const messageRef = await firestore.collection('reports').add(data);
-    var index = 0
-    formValues.photos.forEach(async (photo) => {
+    const photos = formValues.photos
+    for (var i = 0; i < photos.length; i++) {
       // Upload images to Cloud Storage
-      const filePath = `reports/${messageRef.id}/${messageRef.id}-initial-${index}`;
-      const fileSnapshot = await storage.ref(filePath).put(photo);
+      const filePath = `reports/${messageRef.id}/${messageRef.id}-initial-${i}`;
+      const fileSnapshot = await storage.ref(filePath).put(photos[i]);
       
       // Generate a public URL for the file
       const url = await fileSnapshot.ref.getDownloadURL();
-      console.log(url)
       // Update the chat message placeholder with the real image
       messageRef.update({ 
-        photos: firestore.FieldValue.arrayUnion({
+        photos: firebase.firestore.FieldValue.arrayUnion({
           id: messageRef.id, 
           imageUrl: url, 
           imageUri: fileSnapshot.metadata.fullPath
         })
       });
-      index += 1
-    })
+    }
   } catch(error) {
     alert(error)
   }
