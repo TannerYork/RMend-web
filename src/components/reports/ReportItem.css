@@ -17,7 +17,7 @@
 
 .report-item__figure {
   box-shadow: 0 2px 0 rgba(93, 96, 99, 0.1);
-  
+
   width: 100%;
   height: 80vh;
   overflow: hidden;
@@ -57,14 +57,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: .5;
+  flex-grow: 0.5;
 }
 
 .report-item__button:hover {
   position: relative;
   top: 1px;
   right: 1px;
-  background-color: rgba(255, 255, 255, 0.851)
+  background-color: rgba(255, 255, 255, 0.851);
 }
 
 .report-item__details {
@@ -80,83 +80,6 @@
   flex-grow: 1;
 }
 
-.report-item__button-delete {
-  background-color: #ff6a30;
-}
-
-.report-item__button-print {
-  background-image: url('../../images/print-button.svg');
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
-.report-item__button-prioritize,
-.report-item__button-underReview {
-  display: block;
-  cursor: pointer;
-  display: flex;
-  flex-grow: 1;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the browser's default checkbox */
-.report-item__button-prioritize input,
-.report-item__button-underReview input {
-  opacity: 0;
-  cursor: pointer;
-  pointer-events: none;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-  display: flex;
-  flex-grow: 1;
-  background-color: #eee;
-}
-
-/* On mouse-over, add a grey background color */
-.report-item__button-prioritize:hover input ~ .checkmark,
-.report-item__button-underReview:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-/* When the checkbox is checked, add colored background */
-.report-item__button-prioritize input:checked ~ .checkmark {
-  background-color: #ff6a30;
-}
-
-.report-item__button-underReview input:checked ~ .checkmark {
-  background-color: rgb(255, 195, 11);
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: '';
-  display: none;
-}
-
-/* Show the checkmark when checked */
-.report-item__button-prioritize input:checked ~ .checkmark:after,
-.report-item__button-underReview input:checked ~ .checkmark:after {
-  display: block;
-}
-
-/* Style the checkmark/indicator */
-.report-item__button-prioritize .checkmark:after,
-.report-item__button-underReview .checkmark:after {
- background-size: 100%;
- background-repeat: no-repeat;
-}
-
-.report-item__button-prioritize:hover,
-.report-item__button-underReview:hover {
-  opacity: 50%;
-}
 .priority-border {
   border: 5px solid #ff6a30;
 }
