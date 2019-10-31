@@ -28,6 +28,10 @@ class ReportList extends React.Component {
     this.setState({selectedReport: data})
   }
 
+  returnToReportsList = () => {
+    this.setState({selectedReport: null})
+  }
+
   renderReports() {
     const { user } = this.props;
     const reports = this.state.reports;
@@ -51,7 +55,7 @@ class ReportList extends React.Component {
 
   renderReportsOrReport = () => {
     if (this.state.selectedReport) {
-      return <ReportPage data={this.state.selectedReport} />
+      return <ReportPage data={this.state.selectedReport} returnToReportsList={this.returnToReportsList}/>
     } else {
       return <div className="reports-list disable-scrollbars">{this.renderReports()}</div>
     }

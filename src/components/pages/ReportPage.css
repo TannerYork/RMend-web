@@ -130,10 +130,10 @@
 }
 
 /* On mouse-over, add a grey background color */
-.report-button__prioritize:hover input ~ .checkmark,
+/* .report-button__prioritize:hover input ~ .checkmark,
 .report-button__under-review:hover input ~ .checkmark {
   background-color: #ccc;
-}
+} */
 
 /* When the checkbox is checked, add colored background */
 .report-button__prioritize input:checked ~ .checkmark {
@@ -163,10 +163,10 @@
   background-repeat: no-repeat;
 }
 
-.report-button__prioritize:hover,
+/* .report-button__prioritize:hover,
 .report-button__under-review:hover {
   opacity: 50%;
-}
+} */
 
 .center-items {
   display: flex;
