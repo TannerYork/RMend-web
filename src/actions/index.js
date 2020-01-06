@@ -1,4 +1,5 @@
-import firebase, { auth, firestore, functions, storage} from '../config/firebase';
+import { auth, firestore, functions, storage} from '../config/firebase';
+import firebase from 'firebase';
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -129,3 +130,7 @@ export const createReport = formValues => async dispatch => {
     alert(error)
   }
 };
+
+export const deleteReport = (id) => {
+  
+}
