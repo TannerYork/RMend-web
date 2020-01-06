@@ -155,7 +155,7 @@ class ReportCreate extends React.Component {
           </div>
           <div className="form-row">
             <label>Is this a priority?</label>
-            <select>
+            <select onChange={this.handlePriorityChange}>
               <option value={true}>Yes</option>
               <option value={false}>No</option>
             </select>
