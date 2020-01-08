@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import DetailsCard from '../reports/DetailsCard';
 import './ReportPage.css';
+import { deleteReport, updatePriority, putReportUnderReview } from '../../actions/index';
 
 class ReportPage extends React.Component {
   state = {
@@ -47,31 +49,24 @@ class ReportPage extends React.Component {
     )
   }
 
-  confirmCheckboxChange = (checkboxName) => {
-    if (checkboxName == 'putUnderReview') {
-      return window.confirm('Are you sure you want to put this under review? This will send a notification to magistrates in the reports district.')
-    } else if (checkboxName == 'prioritize') {
-      return true
-    }
-  }
-
   handleCheckboxChange = (name) => {
-    if (this.state.checkboxes[name] != true) {
-      const result = this.confirmCheckboxChange(name)
+    const { id } = this.props.data;
+    if (name == 'putUnderReview') {
+      const result = window.confirm('Are you sure you want to put this under review? This will send a notification to magistrates in the reports district.')
       if (result == true) {
+        this.props.putReportUnderReview(id);
         this.setState((prevState, prevProps) => ({
-          checkboxes: {
-            ...prevState.checkboxes,
-            [name]: true
-          }
-        }));
+          checkboxes: { ...prevState.checkboxes, [name]: true }}));
+      }
+    } else {
+      if (this.state.checkboxes[name] == true) {
+        this.props.updatePriority(id, false);
+        this.setState((prevState, prevProps) => ({
+          checkboxes: { ...prevState.checkboxes, [name]: false }}));
       } else if (this.state.checkboxes[name] != true) {
-        this.setState((prevState, prevProps) => ({
-          checkboxes: {
-            ...prevState.checkboxes,
-            [name]: false
-          }
-        }));
+        this.props.updatePriority(id, true);
+        this.setState((prevState, prevProps) => ({ 
+          checkboxes: { ...prevState.checkboxes, [name]: true }}));
       }
     }
   };
@@ -88,7 +83,8 @@ class ReportPage extends React.Component {
   }
 
   handleDeleteClick = () => {
-    
+    this.props.deleteReport(this.props.data.id);
+    this.props.returnToReportsList();
   }
 
   render() {
@@ -141,4 +137,5 @@ class ReportPage extends React.Component {
   }
 }
 
-export default ReportPage;
+const mapStateToProps = (state) => { return { } };
+export default connect(mapStateToProps, { deleteReport, updatePriority, putReportUnderReview })(ReportPage);

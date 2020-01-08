@@ -175,4 +175,3 @@ exports.sendReportReviewEmail = functions.https.onCall(async (data, context) => 
       return { error: err.message, stack: err.stack };
     });
 });
-

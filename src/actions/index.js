@@ -118,7 +118,8 @@ export const createReport = formValues => async dispatch => {
       // Generate a public URL for the file
       const url = await fileSnapshot.ref.getDownloadURL();
       // Update the chat message placeholder with the real image
-      messageRef.update({ 
+      messageRef.update({
+        id: messageRef.id, 
         photos: firebase.firestore.FieldValue.arrayUnion({
           id: messageRef.id, 
           imageUrl: url, 
@@ -131,6 +132,14 @@ export const createReport = formValues => async dispatch => {
   }
 };
 
-export const deleteReport = (id) => {
-  
+export const deleteReport = reportID => async dispatch => {
+  await firestore.collection('reports').doc(reportID).delete();
+}
+
+export const updatePriority = (reportID, priority) => async dispatch => {
+  await firestore.collection('reports').doc(reportID).update({ priority: priority });
+}
+
+export const putReportUnderReview = reportID => async dispatch => {
+  await firestore.collection('reports').doc(reportID).update({ isBeingReviewed: true });
 }

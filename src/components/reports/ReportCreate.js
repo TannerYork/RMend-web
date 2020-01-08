@@ -23,7 +23,7 @@ class ReportCreate extends React.Component {
     if (!formValues.roadName) errors.roadName = "The road's name is required";
     if (!formValues.details) errors.roadName = 'Details of the issue is required';
     if (!formValues.magisterialDistrict) errors.district = 'The magisterial district is required';
-    return errors;
+    return Object.keys(errors);
   };
 
   clearInputs = () => {
@@ -72,19 +72,18 @@ class ReportCreate extends React.Component {
 
   handleStreetChange = e => this.setState({ nearestStreet: e.target.value });
 
-  handlePriorityChange = e => this.setState({ priority: e.tartget.checked });
+  handlePriorityChange = e => this.setState({ priority: e.target.value });
 
   handleSubmit =  e => {
     console.log('Creating Report')
     e.preventDefault();
     const { state } = this;
     const errors = this.validate(state);
-    if (!errors.keys) {
+    if (errors.length == 0) {
       this.props.createReport(state)
       this.clearInputs()
-      return;
     } else {
-      console.log(errors)
+      errors.forEach((error) => { alert(error) })
     }
     console.log('Finnished')
   };
@@ -102,13 +101,14 @@ class ReportCreate extends React.Component {
           <div className="form-image-display" />
           <div className="form-row form-row-photo">
             <label>
-              <span>Photos </span>
+              <span>Photos</span>
               <input
                 type="file"
                 accept="image/*"
                 multiple
                 onChange={this.handlePhotosChange}
                 files={this.state.files}
+                required
               />
             </label>
           </div>
