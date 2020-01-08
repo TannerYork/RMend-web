@@ -7,7 +7,8 @@ class ReportItemModerator extends React.Component {
   render() {
     const { data } = this.props;
     return (
-      <div className="report-item js-report-item" id={data.id}>
+      <div className="report-item js-report-item" id={data.id} style={{
+        border: data.priority ? '5px solid #ff6a30' : 'none'}}>
         <figure className="report-item__figure">
           <img
             className="report-item__img"
@@ -17,8 +18,8 @@ class ReportItemModerator extends React.Component {
         </figure>
         <div className="report-item__preview">
         <div className="report-item__details">
-          <h3>{data.sender}</h3>
-          <h4>{data.roadName}</h4>
+          <h3>{data.roadName}</h3>
+          <h4>{data.isBeingReviewed?'Under Review':''}</h4>
         </div>
         <button className="report-item__button" onClick={() => this.props.selectReport(data)}>More</button>
         </div>
