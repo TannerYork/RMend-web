@@ -35,20 +35,25 @@ exports.addUser = functions.auth.user().onCreate(async data => {
 
 exports.updateUserInfo = functions.https.onCall((data, context) => {
   if (context.auth.token.moderator !== true) {
+    console.log('Access Denied');
     return { error: 'Request not authorized. You must be a moderator to fulfill this request.' };
   }
+  console.log('Access Granted');
   return admin
     .auth()
     .getUser(data.userId)
     .then(user => {
       if (data.verification && data.verification === 'moderator') {
         // Moderate User
+        console.log('Moderator')
         return addModerator(user);
       } else if (data.verification && data.verification === 'verified') {
         // Verify User
+        console.log('Verified User');
         return addUser(user, data.magisterialDistrict);
       } else if (data.verification && data.verification === 'unverified') {
         // Unverifiy User
+        console.log('Unverified User');
         return removeUser(user, '');
       } else {
         return { error: 'ERROR! Verification data was not found' };
@@ -60,51 +65,91 @@ exports.updateUserInfo = functions.https.onCall((data, context) => {
 });
 
 const addModerator = async user => {
-  if (user.customClaims && user.customClaims.moderator === true)
+  if (user.customClaims && user.customClaims.moderator === true) {
+    console.log(`ERROR! ${user.displayName} is already a moderator`);
     return { error: `ERROR! ${user.displayName} is already a moderator` };
-  await admin.auth().setCustomUserClaims(user.uid, {
+  }
+  return admin.auth().setCustomUserClaims(user.uid, {
     verified: true,
     moderator: true,
     magisterialDistrict: 'moderator',
     allowNotifications: false
-  });
-  await admin
+  }).then(() => {
+    return admin
     .firestore()
     .collection('users')
     .doc(user.uid)
     .update({
       verified: true
+    }).then(() => {
+      console.log('Modderator Added');
+      return {result: 'Modderator Added'};
+    }).catch((err) => {
+      console.log(err.message, err.stack);
+      return {error: err.message, stack: err.stack};
     });
+  }).catch((err) => {
+    console.log(err.message, err.stack);
+    return {error: err.message, stack: err.stack};
+  })
 };
 
 const addUser = async (user, magisterialDistrict) => {
-  if (user.customClaims && user.customClaims.verified === true)
+  console.log(user.customClaims);
+  if (user.customClaims && user.customClaims.verified === true) {
+    console.log('Couldn\'t find custom claims or user is already verified');
     return { error: `ERROR! ${user.displayName} is already a verified` };
-  await admin
+  }
+  console.log('Verifying User');
+  return admin
     .auth()
-    .setCustomUserClaims(user.uid, { verified: true, moderator: false, magisterialDistrict });
-  await admin
-    .firestore()
-    .collection('users')
-    .doc(user.uid)
-    .update({
-      verified: true
+    .setCustomUserClaims(user.uid, { verified: true, moderator: false, magisterialDistrict })
+    .then(() => {
+      return admin
+      .firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        verified: true
+      }).then(() => {
+        console.log('User Added');
+        return {result: 'User Added'};
+      }).catch((err) => {
+        console.log(err.message, err.stack);
+        return {error: err.message, stack: err.stack};
+      });
+    }).catch((err) => {
+      console.log(err.message, err.stack);
+      return {error: err.message, stack: err.stack};
     });
 };
 
 const removeUser = async (user, magisterialDistrict) => {
-  if (user.customClaims && user.customClaims.moderator === true)
-    return { error: `ERROR! ${user.displayName} is already a moderator` };
-  await admin
+  if (user.customClaims && user.customClaims.verified === false) {
+    console.log('Couldn\'t find custom claims or user is already unverified');
+    return { error: `ERROR! ${user.displayName} is already unverified` };
+  }
+  return admin
     .auth()
-    .setCustomUserClaims(user.uid, { verified: false, moderator: false, magisterialDistrict });
-  await admin
-    .firestore()
-    .collection('users')
-    .doc(user.uid)
-    .update({
-      verified: false
-    });
+    .setCustomUserClaims(user.uid, { verified: false, moderator: false, magisterialDistrict })
+    .then(() => {
+      return admin
+      .firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        verified: false
+      }).then(() => {
+        console.log('Unverifed user');
+        return {result: 'User Removed'};
+      }).catch((err) => {
+        console.log(err.message, err.stack);
+        return {error: err.message, stack: err.stack};
+      });
+    }).catch((err) => {
+      console.log(err.message, err.stack);
+      return {error: err.message, stack: err.stack};
+    })
 };
 
 exports.sendNotification = functions.firestore.document('reports/{reportid}')

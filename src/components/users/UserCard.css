@@ -56,6 +56,8 @@
   width: 100%;
   max-width: 500px;
   overflow: hidden;
+  cursor: pointer;
+  pointer-events: all;
 
   display: none;
   justify-content: center;
@@ -76,40 +78,6 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
-}
-.options-btn:hover {
-  opacity: 50%;
-}
-.options-btn.start {
-  border-right: 1px solid #ffffff;
-}
-.options-btn.end {
-  border-left: 1px solid #ffffff;
-}
-.options-btn:hover {
-  color: var(--main-link-visited-color);
-}
-
-.user-info-page {
-  background-color: #d6d9dc;
-  color: #3a3a3a;
-
-  width: 95%;
-  max-width: 400px;
-  height: 375px;
-  border-radius: 10px;
-  padding: 5px;
-
-  display: none;
-  flex-direction: column;
-  position: absolute;
-}
-
-.user-info-page.is-visible {
-  display: flex;
-}
-.user-info-page .form-row {
-  margin-bottom: 20px;
 }
 
 @media only screen and (min-width: 500px) {

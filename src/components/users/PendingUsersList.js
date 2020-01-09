@@ -1,12 +1,11 @@
 import React from 'react';
 
-import UserCard from './UserCard';
 import { firestore } from '../../config/firebase';
-import { connect } from 'react-redux';
-import { fetchPendingUsers } from '../../actions';
+import UserCard from './UserCard';
+import UserPage from './UserPage';
 
-class UserListPending extends React.Component {
-  state = { listener: null, pendingUsers: [] };
+class PendingUsersList extends React.Component {
+  state = { listener: null, pendingUsers: [], selectedUser: null };
 
   componentDidMount() {
     var listener = firestore
@@ -15,7 +14,7 @@ class UserListPending extends React.Component {
       .onSnapshot(snapShot => {
         const pendingUsers = [];
         snapShot.forEach(doc => pendingUsers.push(doc.data()));
-        this.setState({ pendingUsers })
+        this.setState({ pendingUsers });
       });
     this.setState({ listener });
   }
@@ -39,11 +38,20 @@ class UserListPending extends React.Component {
     });
   }
 
+  selectUser = (data) => {
+    this.setState({selectedUser: data})
+  }
+
+  returnToUsersList = () => {
+    this.setState({selectedUser: null})
+  }
+
   renderUsers() {
     const { pendingUsers } = this.state;
     if (pendingUsers.length > 0) {
-      pendingUsers.forEach(user => {
-        return <UserCard data={user} toggle={this.toggleOptionsVisiblity} />;
+      return pendingUsers.map(user => {
+        return <UserCard key={user.id} data={user} toggle={this.toggleOptionsVisiblity} 
+                  selectUser={this.selectUser}/>
       });
     } else {
       return (
@@ -55,20 +63,26 @@ class UserListPending extends React.Component {
     }
   }
 
+  renderUsersOrUser() {
+    const { selectedUser } = this.state;
+    if (selectedUser) {
+      return <UserPage data={this.state.selectedUser} returnToUsersList={this.returnToUsersList}/>
+    } else {
+      return (
+      <div className="users-list disable-scrollbars">
+        <div className={'user-list disable-scrollbars'}>{this.renderUsers()}</div>
+      </div>
+      );
+    }
+  }
+
   render() {
     return (
-      <div className="users-list disable-scrollbars">
-        <div className="user-list disable-scrollbars">{this.renderUsers()}</div>
+      <div className="sub-container disable-scrollbars">
+        {this.renderUsersOrUser()}
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ firestore }) => {
-  return { pendingUsers: firestore.pendingUsers };
-};
-
-export default connect(
-  mapStateToProps,
-  { fetchPendingUsers }
-)(UserListPending);
+export default PendingUsersList;

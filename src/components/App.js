@@ -14,7 +14,8 @@ import RegisturePage from './authentication/RegisturePage';
 import UnverifiedPage from './pages/UnverifiedPage';
 import ReportList from './reports/ReportList';
 import ReportCreate from './reports/ReportCreate';
-import UsersPage from './pages/UsersPage';
+import UsersList from './users/UserList';
+import PendingUsersList from './users/PendingUsersList';
 import './App.css';
 
 class App extends React.PureComponent {
@@ -36,7 +37,8 @@ class App extends React.PureComponent {
           <Route path="/unverified" exact component={UnverifiedPage} />
           <Route path="/reports" exact component={ReportList} />
           <Route path="/reports/new" component={ReportCreate} />
-          <Route path="/users" component={UsersPage} />
+          <Route path="/users" component={UsersList} />
+          <Route path="/pending-users" component={PendingUsersList} />
         </main>
         <Footer />
       </div>

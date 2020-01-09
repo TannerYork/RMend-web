@@ -11,7 +11,7 @@ class UserCard extends React.Component {
         </div>
 
         <div className="options">
-          <div className="options-btn js-edit-btn">Edit</div>
+          <div className="options-btn js-edit-btn" onClick={() => this.props.selectUser(data)}>Edit</div>
         </div>
 
         <div className="users-list__item bottom" />

@@ -87,10 +87,9 @@ export const fetchReports = reports => {
 
 export const updateUserInfo = (userId, verification, magisterialDistrict) => async dispatch => {
   const updateUserInfo = await functions.httpsCallable('updateUserInfo');
-  updateUserInfo({ userId, verification, magisterialDistrict }).then(results => {
-    if (results.error) alert(results.error.message);
-    if (results.result) alert(results.result);
-  });
+  const results = await updateUserInfo({ userId, verification, magisterialDistrict });
+  if (results.error) console.log(results.error.message);
+  if (results.result) console.log(results.result);
 };
 
 export const createReport = formValues => async dispatch => {

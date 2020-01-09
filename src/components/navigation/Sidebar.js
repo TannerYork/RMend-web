@@ -38,7 +38,7 @@ class Sidebar extends React.Component {
             Report a Problem
           </SidebarLink>
           <SidebarLink to="/users">Current Users</SidebarLink>
-          <SidebarLink to="/users/pending">Pending Users</SidebarLink>
+          <SidebarLink to="/pending-users">Pending Users</SidebarLink>
           <button onClick={signOut}>Sign Out</button>
         </ul>
       );

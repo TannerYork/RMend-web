@@ -1,25 +1,26 @@
 import React from 'react';
 
-import { firestore } from '../../config/firebase'
+import { firestore } from '../../config/firebase';
 import UserCard from './UserCard';
+import UserPage from './UserPage';
 import './UserList.css';
 
 class UserList extends React.Component {
-  state = { listener: null, users: []}
+  state = { listener: null, users: [], selectedUser: null}
 
   componentDidMount() {
     const listener = firestore.collection('users')
     .where('verified', '==', true)
     .onSnapshot((snapShot) => {
-      const users = []
-      snapShot.forEach((doc) => users.push(doc.data()))
-      this.setState({ users })
+      const users = [];
+      snapShot.forEach((doc) => users.push(doc.data()));
+      this.setState({ users });
     })
-    this.setState({ listener })
+    this.setState({ listener });
   }
 
   componentWillUnmount() {
-    this.state.listener()
+    this.state.listener();
   }
 
   toggleOptionsVisiblity(id) {
@@ -37,11 +38,20 @@ class UserList extends React.Component {
     });
   }
 
+  selectUser = (data) => {
+    this.setState({selectedUser: data});
+  }
+
+  returnToUsersList = () => {
+    this.setState({selectedUser: null});
+  }
+
   renderUsers() {
     const { users } = this.state;
     if (users && users.length > 0) {
       return users.map(user => {
-        return <UserCard key={user.id} data={user} toggle={this.toggleOptionsVisiblity} />
+        return <UserCard key={user.id} data={user} toggle={this.toggleOptionsVisiblity} 
+                  selectUser={this.selectUser}/>
       });
     } else {
       return (
@@ -53,12 +63,25 @@ class UserList extends React.Component {
     }
   }
 
-  render() {
-    return (
+  renderUsersOrUser() {
+    const { selectedUser } = this.state;
+    if (selectedUser) {
+      return <UserPage data={this.state.selectedUser} returnToUsersList={this.returnToUsersList}/>
+    } else {
+      return (
       <div className="users-list disable-scrollbars">
         <div className={'user-list disable-scrollbars'}>{this.renderUsers()}</div>
       </div>
-    );
+      );
+    }
+  }
+
+  render() {
+    return (
+      <div className="sub-container disable-scrollbars">
+        {this.renderUsersOrUser()}
+      </div>
+      );
   }
 }
 
