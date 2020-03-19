@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter, Route } from 'react-router-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
-import * as serviceWorker from './serviceWorker'
+import * as serviceWorker from './serviceWorker';
 
-import App from './components/App';
+import App from './App';
 import reducers from './reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,4 +21,4 @@ ReactDOM.render(
   document.querySelector('#root')
 );
 
-serviceWorker.register()
+serviceWorker.register();

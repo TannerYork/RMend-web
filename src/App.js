@@ -8,14 +8,10 @@ import Navbar from './navigation/Navbar';
 import Sidebar from './navigation/Sidebar';
 import Footer from './navigation/Footer';
 
-import SignInPage from './authentication/SignInPage';
-import ForgotPasswordPage from './authentication/ForgotPasswordPage';
-import RegisturePage from './authentication/RegisturePage';
-import UnverifiedPage from './pages/UnverifiedPage';
+import SignInPage from './pages/authentication/SignInPage';
+import ForgotPasswordPage from './pages/authentication/ForgotPasswordPage';
 import ReportList from './reports/ReportList';
 import ReportCreate from './reports/ReportCreate';
-import UsersList from './users/UserList';
-import PendingUsersList from './users/PendingUsersList';
 import './App.css';
 
 class App extends React.PureComponent {
@@ -33,12 +29,8 @@ class App extends React.PureComponent {
         <main className="page no-print">
           <Route path="/" exact component={SignInPage} />
           <Route path="/forgot-password" exact component={ForgotPasswordPage} />
-          <Route path="/registure" exact component={RegisturePage} />
-          <Route path="/unverified" exact component={UnverifiedPage} />
           <Route path="/reports" exact component={ReportList} />
-          <Route path="/reports/new" component={ReportCreate} />
-          <Route path="/users" component={UsersList} />
-          <Route path="/pending-users" component={PendingUsersList} />
+          {/* <Route path="/reports/new" component={ReportCreate} /> */}
         </main>
         <Footer />
       </div>
@@ -46,7 +38,4 @@ class App extends React.PureComponent {
   }
 }
 
-export default connect(
-  null,
-  { listenForAuthChange }
-)(App);
+export default connect(null, { listenForAuthChange })(App);

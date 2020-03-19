@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { GoogleAuthId, auth } from '../../config/firebase';
+import { GoogleAuthId, auth } from '../../config/firebaseApp';
 
 var firebaseui = require('firebaseui');
 
