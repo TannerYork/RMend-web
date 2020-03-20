@@ -1,13 +1,6 @@
-import { auth, firestore, functions, storage } from '../../config/firebaseApp';
+import { auth, firestore, storage } from '../../config/firebaseApp';
 import firebase from 'firebase';
-import {
-  SIGN_IN,
-  SIGN_OUT,
-  GET_USER,
-  FETCH_USERS,
-  FETCH_PENDING_USERS,
-  FETCH_REPORTS
-} from './types';
+import { SIGN_IN, SIGN_OUT, GET_USER } from './types';
 
 export const signInWithEmailAndPassword = (email, password) => async dispatch => {
   await auth.signInWithEmailAndPassword(email, password);
@@ -43,8 +36,12 @@ export const listenForAuthChange = history => async dispatch => {
       user.getIdTokenResult(true).then(userIdTokenResult => {
         dispatch({ type: SIGN_IN, payload: userIdTokenResult.claims });
         dispatch(getUserInfo());
-        if (userIdTokenResult.claims.verified !== true) history.push('/unverified');
-        if (userIdTokenResult.claims.verified === true) history.push('/reports');
+        if (userIdTokenResult.claims.admin != '') {
+          history.push('/admin');
+        } else {
+          alert('Only authority admins can access this site');
+          auth.signOut();
+        }
       });
     } else {
       console.log('User Signed Out');
@@ -52,25 +49,6 @@ export const listenForAuthChange = history => async dispatch => {
       history.push('/');
     }
   });
-};
-
-export const fetchUsers = users => {
-  return { type: FETCH_USERS, payload: users };
-};
-
-export const fetchPendingUsers = users => {
-  return { type: FETCH_PENDING_USERS, payload: users };
-};
-
-export const fetchReports = reports => {
-  return { type: FETCH_REPORTS, payload: reports };
-};
-
-export const updateUserInfo = (userId, verification, magisterialDistrict) => async dispatch => {
-  const updateUserInfo = await functions.httpsCallable('updateUserInfo');
-  const results = await updateUserInfo({ userId, verification, magisterialDistrict });
-  if (results.error) console.log(results.error.message);
-  if (results.result) console.log(results.result);
 };
 
 export const createReport = formValues => async dispatch => {
