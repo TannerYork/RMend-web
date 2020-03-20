@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { sendPasswordRestEmail } from '../../actions';
+import { sendPasswordRestEmail } from '../../redux/actions';
 import './ForgotPasswordPage.css';
 
 class ForgotPasswordPage extends React.Component {
@@ -64,7 +64,4 @@ const wrappedComponent = reduxForm({
   validate
 })(ForgotPasswordPage);
 
-export default connect(
-  null,
-  { sendPasswordRestEmail }
-)(wrappedComponent);
+export default connect(null, { sendPasswordRestEmail })(wrappedComponent);

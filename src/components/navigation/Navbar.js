@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { signOut } from '../../actions';
+import { signOut } from '../../redux/actions';
 import './Navbar.css';
 
 class Navbar extends React.Component {
@@ -17,11 +17,11 @@ class Navbar extends React.Component {
           <img className="main-nav__logo-img" src="images/R.Mend-title.svg" alt="R.Mend Logo" />
         </Link>
 
-        <div className="hamburger" onClick={this.onHamburgerClick}>
+        {/* <div className="hamburger" onClick={this.onHamburgerClick}>
           <div className="thick" />
           <div className="thick" />
           <div className="thick" />
-        </div>
+        </div> */}
       </nav>
     );
   }
@@ -29,7 +29,4 @@ class Navbar extends React.Component {
 
 const wrappedComponent = withRouter(Navbar);
 
-export default connect(
-  null,
-  { signOut }
-)(wrappedComponent);
+export default connect(null, { signOut })(wrappedComponent);

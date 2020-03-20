@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 
-import GoogleSignInButton from '../firebase/GoogleSignInButton';
-import { signInWithEmailAndPassword } from '../../actions';
+import GoogleSignInButton from '../../components/firebase/GoogleSignInButton';
+import { signInWithEmailAndPassword } from '../../redux/actions';
 import './SignInPage.css';
 
 class SignInPage extends React.Component {
@@ -59,10 +59,6 @@ class SignInPage extends React.Component {
             </div>
           </form>
           <GoogleSignInButton />
-          <div className="sign-in-registure">
-            <p>Don't have an account?</p>
-            <Link to="/registure">Registure here</Link>
-          </div>
         </div>
       </div>
     );
@@ -87,7 +83,4 @@ const wrappedComponent = reduxForm({
   validate
 })(SignInPage);
 
-export default connect(
-  null,
-  { signInWithEmailAndPassword }
-)(wrappedComponent);
+export default connect(null, { signInWithEmailAndPassword })(wrappedComponent);

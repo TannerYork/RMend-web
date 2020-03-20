@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
 import SidebarLink from './SidebarLink';
-import { signOut } from '../../actions';
+import { signOut } from '../../redux/actions';
 import './Sidebar.css';
 
 class Sidebar extends React.Component {
@@ -78,9 +78,4 @@ const mapStateToProps = ({ auth }) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    { signOut }
-  )(Sidebar)
-);
+export default withRouter(connect(mapStateToProps, { signOut })(Sidebar));
