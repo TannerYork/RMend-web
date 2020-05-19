@@ -2,7 +2,7 @@ import React from 'react';
 import thunk from 'redux-thunk';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -16,6 +16,7 @@ import Navbar from './components/navigation/Navbar';
 import Sidebar from './components/navigation/Sidebar';
 import SignInPage from './pages/authentication/SignInPage';
 import ForgotPasswordPage from './pages/authentication/ForgotPasswordPage';
+import HomePage from './pages/HomePage';
 import './index.css';
 import './Form.css';
 
@@ -33,6 +34,7 @@ class App extends React.PureComponent {
           <main id="page">
             <Route path="/" exact component={SignInPage} />
             <Route path="/forgot-password" exact component={ForgotPasswordPage} />
+            <Route path="/admin" component={HomePage} />
           </main>
         </div>
       </div>
@@ -46,9 +48,9 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <HashRouter>
+    <BrowserRouter>
       <Route path="/" component={ConnectedApp} />
-    </HashRouter>
+    </BrowserRouter>
   </Provider>,
   document.querySelector('#root')
 );
