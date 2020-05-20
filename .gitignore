@@ -27,3 +27,6 @@ node_modules
 # Firebase
 firebase-debug.log
 .firebase
+
+# VS Code
+.vscode/

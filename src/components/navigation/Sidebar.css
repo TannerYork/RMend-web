@@ -1,21 +1,20 @@
 .sidebar {
-  display: table;
   font-family: 'Harman Simple';
   font-size: 8vw;
   line-height: 3vw;
-
-  margin-top: 75px;
-  padding: 22px;
-
   color: var(--navbar-text-color);
+
   background-color: #f9fafb;
   border-left: 1px solid #eaedf0;
   transition: transform 1s;
 
-  position: relative;
-  transform: translateY(-100%);
-  height: auto;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10001;
+  /* transform: translateY(-100%); */
+  height: 100vh;
+  width: 65vw;
   pointer-events: all;
 }
 
@@ -60,6 +59,17 @@
   margin-right: auto;
 }
 
+#sidebar__logo {
+  width: 100%;
+  height: 5vh;
+
+  font-size: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sidebar__list {
   list-style-type: none;
   display: flex;
@@ -96,23 +106,9 @@
 @media only screen and (min-width: 500px) {
   .sidebar {
     font-size: 2vw;
-    transform: translateY(0%);
-    transform: translateX(100%);
-    width: 50%;
-    max-width: 300px;
+    width: 20vw;
     height: 100%;
-  }
-  .is-visible {
-    transform: translateX(0%);
-  }
-  .sidebar button {
-    align-items: flex-start;
-  }
-  .current-user__name {
-    justify-content: flex-start;
-  }
-  .current-user-img {
-    display: block;
+    position: relative;
   }
 }
 
