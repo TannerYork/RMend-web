@@ -1,0 +1,185 @@
+.report-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.report-photos {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+
+  display: grid;
+  gap: 10px;
+
+  grid-template-rows: minmax(150px, 1fr);
+  grid-auto-flow: column;
+
+  overflow-x: scroll;
+  scroll-snap-type: x proximity;
+  padding-bottom: calc(0.75 * 20px);
+  margin-bottom: calc(-0.25 * 20px);
+}
+
+.report-photos::before,
+.report-photos::after {
+  content: ‘’;
+  width: 10px;
+}
+
+.report-header {
+  margin-top: 20px;
+}
+
+.report-details {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.report-buttons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.report-button {
+  background-color: rgba(255, 255, 255, 0.851);
+  border-radius: 20px;
+  font-size: 2vh;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+
+  width: 100px;
+  height: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.report-button:hover {
+  position: relative;
+  top: 1px;
+  right: 1px;
+}
+
+.report-button__delete,
+.report-button__return {
+  background-color: #ff6a30;
+  color: white;
+  font-size: 4vh;
+  width: 100%;
+  max-width: 300px;
+  height: 50px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.report-button__return {
+  background-color: rgb(70, 66, 66);
+}
+
+.report-button__print {
+  background-image: url('../../images/print-button.svg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.report-button__prioritize,
+.report-button__under-review {
+  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Hide the browser's default checkbox */
+.report-button__prioritize input,
+.report-button__under-review input {
+  width: 100px;
+  height: 100px;
+  pointer-events: all;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  border-radius: 20px;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* On mouse-over, add a grey background color */
+/* .report-button__prioritize:hover input ~ .checkmark,
+.report-button__under-review:hover input ~ .checkmark {
+  background-color: #ccc;
+} */
+
+/* When the checkbox is checked, add colored background */
+.report-button__prioritize input:checked ~ .checkmark {
+  background-color: #ff6a30;
+}
+
+.report-button__under-review input:checked ~ .checkmark {
+  background-color: rgb(255, 195, 11);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.report-button__prioritize input:checked ~ .checkmark:after,
+.report-button__under-review input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.report-button__prioritize .checkmark:after,
+.report-button__under-review .checkmark:after {
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+/* .report-button__prioritize:hover,
+.report-button__under-review:hover {
+  opacity: 50%;
+} */
+
+.center-items {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 500px) {
+  .report-details {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .report-photos {
+    grid-auto-columns: calc(50% - 20px * 2);
+  }
+}

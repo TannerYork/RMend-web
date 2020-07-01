@@ -1,24 +1,32 @@
-import { SIGN_IN, SIGN_OUT, GET_USER_INFO } from '../actions/types';
+import { SIGN_IN, SIGN_OUT, GET_USER } from '../actions/types';
 
 const INITIAL_STATE = {
-  isSignedIn: false,
-  displayName: null,
-  email: null,
-  phoneNumber: null,
-  authCode: null,
+  isSignedIn: null,
+  user: null,
+  tokens: null
 };
 
-const authReducer = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGN_IN:
-      return { ...state, isSignedIn: true };
-    case GET_USER_INFO:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        isSignedIn: true,
+        tokens: action.payload
+      };
     case SIGN_OUT:
-      return INITIAL_STATE;
+      return {
+        ...state,
+        isSignedIn: false,
+        user: null,
+        tokens: null
+      };
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload
+      };
     default:
       return state;
   }
 };
-
-export default authReducer;
