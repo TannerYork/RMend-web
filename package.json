@@ -5,7 +5,7 @@
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.16.0",
     "blueimp-load-image": "^2.24.0",
-    "firebase": "^6.3.4",
+    "firebase": "^10.9.0",
     "firebaseui": "^4.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.8.6",
